@@ -1,0 +1,27 @@
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:3001").replace(/\/$/, "");
+
+const buildUrl = (path, params = {}) => {
+  const url = new URL(`${API_BASE_URL}${path}`);
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      url.searchParams.set(key, value);
+    }
+  });
+
+  return url.toString();
+};
+
+const readJson = async (url) => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error("No se pudo obtener la información del servidor");
+  }
+
+  return response.json();
+};
+
+export const fetchMovies = (query) => readJson(buildUrl("/api/movies", { q: query }));
+
+export const fetchMovieById = (id) => readJson(buildUrl(`/api/movies/${id}`));

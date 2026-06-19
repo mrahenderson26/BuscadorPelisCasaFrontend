@@ -1,0 +1,86 @@
+:root {
+  --cream-50: #fffdf8;
+  --cream-100: #fbf4e5;
+  --sand-300: #dec8a5;
+  --ink-700: #2b2c32;
+  --ink-500: #5a5e69;
+  --teal-500: #1f8a8c;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--ink-700);
+  background-color: var(--cream-50);
+}
+
+.app-bg {
+  background:
+    radial-gradient(circle at 10% 5%, rgba(31, 138, 140, 0.16), transparent 34%),
+    radial-gradient(circle at 90% 95%, rgba(222, 200, 165, 0.3), transparent 30%),
+    linear-gradient(180deg, var(--cream-100), var(--cream-50));
+}
+
+.movie-card {
+  border: 1px solid rgba(90, 94, 105, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.movie-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.75rem 1.4rem rgba(43, 44, 50, 0.12);
+}
+
+.language-selector .form-select {
+  min-width: 130px;
+}
+
+.movie-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background-color: #e9ecef;
+}
+
+.movie-synopsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.detail-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background-color: #e9ecef;
+}
+
+.detail-box {
+  background-color: white;
+  border: 1px solid rgba(31, 138, 140, 0.2);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.detail-box span {
+  font-size: 0.8rem;
+  color: var(--ink-500);
+}
+
+.detail-box strong {
+  font-size: 1rem;
+}
+
+.detail-synopsis {
+  line-height: 1.6;
+  max-width: 75ch;
+}
+
+.text-bg-primary {
+  background-color: var(--teal-500) !important;
+}
