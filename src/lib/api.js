@@ -16,11 +16,12 @@ const buildUrl = (path, params = {}) => {
   return url.toString();
 };
 
-const readJson = async (url) => {
-  const response = await fetch(url);
+const readJson = async (url, options = {}) => {
+  const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error("No se pudo obtener la información del servidor");
+    const errorBody = await response.json().catch(() => ({}));
+    throw new Error(errorBody.message || "No se pudo obtener la información del servidor");
   }
 
   return response.json();
@@ -29,3 +30,14 @@ const readJson = async (url) => {
 export const fetchMovies = (query) => readJson(buildUrl("/api/movies", { q: query }));
 
 export const fetchMovieById = (id) => readJson(buildUrl(`/api/movies/${id}`));
+
+export const createMovie = (formData) =>
+  readJson(buildUrl("/api/movies"), {
+    method: "POST",
+    body: formData,
+  });
+
+export const deleteMovie = (id) =>
+  readJson(buildUrl(`/api/movies/${id}`), {
+    method: "DELETE",
+  });

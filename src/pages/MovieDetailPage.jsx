@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import LanguageSelector from "../components/LanguageSelector.jsx";
-import { fetchMovieById } from "../lib/api.js";
+import { deleteMovie, fetchMovieById } from "../lib/api.js";
 import {
   getMovieDirector,
   getMovieGenres,
@@ -20,6 +20,8 @@ function MovieDetailPage({ language, onLanguageChange }) {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
     const expectedPath = language === "en" ? `/movie/${id}` : `/pelicula/${id}`;
@@ -62,6 +64,24 @@ function MovieDetailPage({ language, onLanguageChange }) {
 
   const genres = getMovieGenres(movie, language);
 
+  const handleDelete = async () => {
+    if (!window.confirm(text.confirmDelete)) {
+      return;
+    }
+
+    setDeleting(true);
+    setDeleteError("");
+
+    try {
+      await deleteMovie(id);
+      navigate("/");
+    } catch (_err) {
+      setDeleteError(text.deleteMovieError);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <main className="py-5 app-bg min-vh-100">
       <div className="container">
@@ -78,6 +98,12 @@ function MovieDetailPage({ language, onLanguageChange }) {
         {!loading && error && (
           <div className="alert alert-danger" role="alert">
             {error}
+          </div>
+        )}
+
+        {!loading && deleteError && (
+          <div className="alert alert-danger" role="alert">
+            {deleteError}
           </div>
         )}
 
@@ -153,6 +179,17 @@ function MovieDetailPage({ language, onLanguageChange }) {
                   ))}
                 </ul>
               </section>
+
+              <div className="mt-4 pt-3 border-top">
+                <button
+                  type="button"
+                  className="btn btn-outline-danger"
+                  onClick={handleDelete}
+                  disabled={deleting}
+                >
+                  {deleting ? text.deletingMovie : text.deleteMovie}
+                </button>
+              </div>
             </div>
           </article>
         )}

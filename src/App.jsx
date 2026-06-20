@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SearchPage from "./pages/SearchPage.jsx";
 import MovieDetailPage from "./pages/MovieDetailPage.jsx";
+import AddMoviePage from "./pages/AddMoviePage.jsx";
 
 function App() {
   const initialLanguage = useMemo(() => {
@@ -38,6 +39,14 @@ function App() {
       <Route
         path="/movie/:id"
         element={<MovieDetailPage language={language} onLanguageChange={handleLanguageChange} />}
+      />
+      <Route
+        path="/agregar"
+        element={<AddMoviePage language={language} onLanguageChange={handleLanguageChange} />}
+      />
+      <Route
+        path="/add"
+        element={<AddMoviePage language={language} onLanguageChange={handleLanguageChange} />}
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

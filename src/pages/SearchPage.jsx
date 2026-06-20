@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import LanguageSelector from "../components/LanguageSelector.jsx";
 import MovieCard from "../components/MovieCard.jsx";
 import { fetchMovies } from "../lib/api.js";
@@ -73,9 +74,17 @@ function SearchPage({ language, onLanguageChange }) {
           <LanguageSelector language={language} onChange={onLanguageChange} />
         </div>
 
-        <header className="mb-4">
-          <h1 className="display-6 fw-semibold mb-2">{text.appTitle}</h1>
-          <p className="text-secondary mb-0">{text.appSubtitle}</p>
+        <header className="mb-4 d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+          <div>
+            <h1 className="display-6 fw-semibold mb-2">{text.appTitle}</h1>
+            <p className="text-secondary mb-0">{text.appSubtitle}</p>
+          </div>
+          <Link
+            className="btn btn-primary"
+            to={language === "en" ? "/add" : "/agregar"}
+          >
+            {text.addMovie}
+          </Link>
         </header>
 
         <section className="card border-0 shadow-sm mb-4">
