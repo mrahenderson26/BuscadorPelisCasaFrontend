@@ -21,13 +21,13 @@ body {
     linear-gradient(180deg, var(--cream-100), var(--cream-50));
 }
 
-.movie-card {
+.product-card {
   border: 1px solid rgba(90, 94, 105, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
 
-.movie-card:hover {
+.product-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 0.75rem 1.4rem rgba(43, 44, 50, 0.12);
 }
@@ -36,21 +36,14 @@ body {
   min-width: 130px;
 }
 
-.movie-poster {
+.product-image {
   width: 100%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
   background-color: #e9ecef;
 }
 
-.movie-synopsis {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.detail-poster {
+.detail-image {
   width: 100%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
@@ -74,11 +67,6 @@ body {
 
 .detail-box strong {
   font-size: 1rem;
-}
-
-.detail-synopsis {
-  line-height: 1.6;
-  max-width: 75ch;
 }
 
 .text-bg-primary {

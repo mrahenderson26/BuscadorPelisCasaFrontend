@@ -1,20 +1,18 @@
 import { useMemo, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import SearchPage from "./pages/SearchPage.jsx";
-import MovieDetailPage from "./pages/MovieDetailPage.jsx";
-import AddMoviePage from "./pages/AddMoviePage.jsx";
+import ListaProductos from "./pages/ListaProductos.jsx";
+import ProductoDetalle from "./pages/ProductoDetalle.jsx";
+import AgregarProducto from "./pages/AgregarProducto.jsx";
 
 function App() {
   const initialLanguage = useMemo(() => {
     if (typeof window === "undefined") {
       return "es";
     }
-
     const stored = window.localStorage.getItem("app_language");
     if (stored === "es" || stored === "en") {
       return stored;
     }
-
     return "es";
   }, []);
 
@@ -30,23 +28,19 @@ function App() {
     <Routes>
       <Route
         path="/"
-        element={<SearchPage language={language} onLanguageChange={handleLanguageChange} />}
+        element={<ListaProductos language={language} onLanguageChange={handleLanguageChange} />}
       />
       <Route
-        path="/pelicula/:id"
-        element={<MovieDetailPage language={language} onLanguageChange={handleLanguageChange} />}
-      />
-      <Route
-        path="/movie/:id"
-        element={<MovieDetailPage language={language} onLanguageChange={handleLanguageChange} />}
+        path="/producto/:id"
+        element={<ProductoDetalle language={language} onLanguageChange={handleLanguageChange} />}
       />
       <Route
         path="/agregar"
-        element={<AddMoviePage language={language} onLanguageChange={handleLanguageChange} />}
+        element={<AgregarProducto language={language} onLanguageChange={handleLanguageChange} />}
       />
       <Route
         path="/add"
-        element={<AddMoviePage language={language} onLanguageChange={handleLanguageChange} />}
+        element={<AgregarProducto language={language} onLanguageChange={handleLanguageChange} />}
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

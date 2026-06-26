@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import LanguageSelector from "../components/LanguageSelector.jsx";
-import MovieCard from "../components/MovieCard.jsx";
-import { fetchMovies } from "../lib/api.js";
+import ProductCard from "../components/ProductCard.jsx";
+import { fetchProductos } from "../lib/api.js";
 import { getText } from "../lib/i18n.js";
 
 const useDebouncedValue = (value, delay = 350) => {
@@ -16,30 +16,30 @@ const useDebouncedValue = (value, delay = 350) => {
   return debounced;
 };
 
-function SearchPage({ language, onLanguageChange }) {
+function ListaProductos({ language, onLanguageChange }) {
   const text = getText(language);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
-  const [movies, setMovies] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
-    const loadMovies = async () => {
+    const loadProductos = async () => {
       setLoading(true);
       setError("");
 
       try {
-        const data = await fetchMovies(debouncedQuery);
+        const data = await fetchProductos(debouncedQuery);
         if (!cancelled) {
-          setMovies(data);
+          setProductos(data);
         }
-      } catch (_err) {
+      } catch {
         if (!cancelled) {
           setError(text.loadError);
-          setMovies([]);
+          setProductos([]);
         }
       } finally {
         if (!cancelled) {
@@ -48,7 +48,7 @@ function SearchPage({ language, onLanguageChange }) {
       }
     };
 
-    loadMovies();
+    loadProductos();
 
     return () => {
       cancelled = true;
@@ -61,11 +61,11 @@ function SearchPage({ language, onLanguageChange }) {
     }
 
     if (query.trim()) {
-      return text.resultsFor(movies.length, query.trim());
+      return text.resultsFor(productos.length, query.trim());
     }
 
-    return text.loadedMovies(movies.length);
-  }, [loading, movies.length, query, text]);
+    return text.loadedProducts(productos.length);
+  }, [loading, productos.length, query, text]);
 
   return (
     <main className="py-5 app-bg min-vh-100">
@@ -83,17 +83,17 @@ function SearchPage({ language, onLanguageChange }) {
             className="btn btn-primary"
             to={language === "en" ? "/add" : "/agregar"}
           >
-            {text.addMovie}
+            {text.addProduct}
           </Link>
         </header>
 
         <section className="card border-0 shadow-sm mb-4">
           <div className="card-body p-4">
-            <label htmlFor="movie-search" className="form-label fw-semibold">
+            <label htmlFor="product-search" className="form-label fw-semibold">
               {text.searchLabel}
             </label>
             <input
-              id="movie-search"
+              id="product-search"
               type="search"
               className="form-control form-control-lg"
               placeholder={text.searchPlaceholder}
@@ -110,16 +110,16 @@ function SearchPage({ language, onLanguageChange }) {
           </div>
         )}
 
-        {!loading && !error && movies.length === 0 && (
+        {!loading && !error && productos.length === 0 && (
           <div className="alert alert-warning" role="status">
             {text.emptyResults}
           </div>
         )}
 
         <section className="row g-3">
-          {movies.map((movie) => (
-            <div key={movie.id} className="col-12 col-md-6 col-lg-4">
-              <MovieCard movie={movie} language={language} text={text} />
+          {productos.map((producto) => (
+            <div key={producto.id} className="col-12 col-md-6 col-lg-4">
+              <ProductCard product={producto} text={text} />
             </div>
           ))}
         </section>
@@ -128,4 +128,4 @@ function SearchPage({ language, onLanguageChange }) {
   );
 }
 
-export default SearchPage;
+export default ListaProductos;
